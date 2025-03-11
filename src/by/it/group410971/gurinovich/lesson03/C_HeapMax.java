@@ -74,23 +74,61 @@ public class C_HeapMax {
         //Будет мало? Ну тогда можете его собрать как Generic и/или использовать в варианте B
         private List<Long> heap = new ArrayList<>();
 
-        int siftDown(int i) { //просеивание вверх
-
+        int siftDown(int i) { // Просеивание вниз
+            int size = heap.size();
+            while (2 * i + 1 < size) {
+                int left = 2 * i + 1;
+                int right = 2 * i + 2;
+                int largest = left;
+    
+                if (right < size && heap.get(right) > heap.get(left)) {
+                    largest = right;
+                }
+    
+                if (heap.get(i) >= heap.get(largest)) {
+                    break;
+                }
+    
+                swap(i, largest);
+                i = largest;
+            }
             return i;
         }
 
-        int siftUp(int i) { //просеивание вниз
-
+        int siftUp(int i) { // Просеивание вверх
+            while (i > 0) {
+                int parent = (i - 1) / 2;
+                if (heap.get(i) <= heap.get(parent)) {
+                    break;
+                }
+                swap(i, parent);
+                i = parent;
+            }
             return i;
         }
 
-        void insert(Long value) { //вставка
+        void insert(Long value) { // Вставка
+            heap.add(value);
+            siftUp(heap.size() - 1);
         }
 
-        Long extractMax() { //извлечение и удаление максимума
-            Long result = null;
+        Long extractMax() { // Извлечение и удаление максимума
+            if (heap.isEmpty()) {
+                return null;
+            }
+            long maxValue = heap.get(0);
+            swap(0, heap.size() - 1);
+            heap.remove(heap.size() - 1);
+            if (!heap.isEmpty()) {
+                siftDown(0);
+            }
+            return maxValue;
+        }
 
-            return result;
+        private void swap(int i, int j) {
+            long temp = heap.get(i);
+            heap.set(i, heap.get(j));
+            heap.set(j, temp);
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
     }
