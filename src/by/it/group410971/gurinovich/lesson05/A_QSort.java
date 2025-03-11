@@ -2,6 +2,8 @@ package by.it.group410971.gurinovich.lesson05;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Scanner;
 
 /*
@@ -59,8 +61,14 @@ public class A_QSort {
 
         //читаем сами отрезки
         for (int i = 0; i < n; i++) {
-            //читаем начало и конец каждого отрезка
-            segments[i] = new Segment(scanner.nextInt(), scanner.nextInt());
+            int start = scanner.nextInt();
+            int stop = scanner.nextInt();
+            if (start > stop) {
+                int temp = start;
+                start = stop;
+                stop = temp;
+            }
+            segments[i] = new Segment(start, stop);
         }
         //читаем точки
         for (int i = 0; i < m; i++) {
@@ -68,8 +76,20 @@ public class A_QSort {
         }
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
+        Arrays.sort(segments);
 
-
+        for (int i = 0; i < m; i++) {
+            int count = 0;
+            for (Segment segment : segments) {
+                if (points[i] < segment.start) {
+                    break; // Дальше проверять смысла нет (массив отсортирован)
+                }
+                if (points[i] >= segment.start && points[i] <= segment.stop) {
+                    count++;
+                }
+            }
+            result[i] = count;
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }

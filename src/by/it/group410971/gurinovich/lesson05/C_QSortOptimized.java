@@ -63,10 +63,90 @@ public class C_QSortOptimized {
         }
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
+        quickSort(segments, 0, n - 1);
 
+        for (int i = 0; i < m; i++) {
+            result[i] = countSegmentsContainingPoint(segments, points[i]);
+        }
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
+    }
+
+    private void quickSort(Segment[] arr, int low, int high) {
+        while (low < high) {
+            if (high - low < 10) {
+                insertionSort(arr, low, high);
+                return;
+            }
+
+            int lt = low, gt = high;
+            Segment pivot = arr[low];
+            int i = low + 1;
+
+            while (i <= gt) {
+                if (arr[i].compareTo(pivot) < 0) {
+                    swap(arr, lt++, i++);
+                } else if (arr[i].compareTo(pivot) > 0) {
+                    swap(arr, i, gt--);
+                } else {
+                    i++;
+                }
+            }
+
+            if (lt - low < high - gt) {
+                quickSort(arr, low, lt - 1);
+                low = gt + 1;
+            } else {
+                quickSort(arr, gt + 1, high);
+                high = lt - 1;
+            }
+        }
+    }
+
+    private void insertionSort(Segment[] arr, int low, int high) {
+        for (int i = low + 1; i <= high; i++) {
+            Segment key = arr[i];
+            int j = i - 1;
+            while (j >= low && arr[j].compareTo(key) > 0) {
+                arr[j + 1] = arr[j];
+                j--;
+            }
+            arr[j + 1] = key;
+        }
+    }
+
+    private int binarySearchFirst(Segment[] segments, int point) {
+        int left = 0, right = segments.length - 1, mid, res = -1;
+        while (left <= right) {
+            mid = left + (right - left) / 2;
+            if (segments[mid].start <= point) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
+    }
+
+    private int countSegmentsContainingPoint(Segment[] segments, int point) {
+        int index = binarySearchFirst(segments, point);
+        if (index == -1) return 0;
+
+        int count = 0;
+        for (int i = index; i >= 0 && segments[i].start <= point; i--) {
+            if (segments[i].stop >= point) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private void swap(Segment[] arr, int i, int j) {
+        Segment temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
     }
 
     //отрезок

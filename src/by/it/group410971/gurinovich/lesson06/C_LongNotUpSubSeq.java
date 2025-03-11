@@ -2,6 +2,10 @@ package by.it.group410971.gurinovich.lesson06;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 /*
@@ -56,11 +60,46 @@ public class C_LongNotUpSubSeq {
             m[i] = scanner.nextInt();
         }
         //тут реализуйте логику задачи методами динамического программирования (!!!)
-        int result = 0;
+        int[] dp = new int[n];
+        int[] prev = new int[n];
+        Arrays.fill(prev, -1);
 
+        List<Integer> subseq = new ArrayList<>();
+        List<Integer> indices = new ArrayList<>();
 
+        for (int i = 0; i < n; i++) {
+            int pos = binarySearch(subseq, m[i]);
+            if (pos < subseq.size()) {
+                subseq.set(pos, m[i]); 
+            } else {
+                subseq.add(m[i]); 
+            }
+
+            dp[i] = pos + 1;
+            if (pos > 0) {
+                prev[i] = indices.get(pos - 1); 
+            }
+
+            if (pos < indices.size()) {
+                indices.set(pos, i);
+            } else {
+                indices.add(i);
+            }
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return subseq.size(); 
     }
 
+    private int binarySearch(List<Integer> list, int target) {
+        int left = 0, right = list.size();
+        while (left < right) {
+            int mid = (left + right) / 2;
+            if (list.get(mid) >= target) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        return left;
+    }
 }
