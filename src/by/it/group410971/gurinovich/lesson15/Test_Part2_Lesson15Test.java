@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson15;
+package by.it.group410971.gurinovich.lesson15;
 
 import by.it.HomeWork;
 import org.junit.Test;

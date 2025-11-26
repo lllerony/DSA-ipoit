@@ -1,5 +1,4 @@
-package by.it.a_khmelev.lesson12;
-
+package by.it.group410971.gurinovich.lesson12;
 
 import by.it.HomeWork;
 import org.junit.Test;
@@ -39,7 +38,6 @@ public class Test_Part2_Lesson12Test extends HomeWork {
                 remove(Object)
                 get(Object)
                 containsKey(Object)
-
                 size()
                 clear()
                 isEmpty()
@@ -169,7 +167,7 @@ public class Test_Part2_Lesson12Test extends HomeWork {
                         .collect(Collectors.toUnmodifiableSet());
                 parameters[i] = collect;
             } else if (String.class.isAssignableFrom(parameterTypes[i])
-                       || i == 1 //for put(Object,Object)
+                       || i == 1 
             ) {
                 parameters[i] = "str" + randomInteger();
             } else if (Integer.class.isAssignableFrom(parameterTypes[i])) {
@@ -279,5 +277,4 @@ public class Test_Part2_Lesson12Test extends HomeWork {
     private int checkSum(String someString) {
         return someString.chars().sum();
     }
-
 }

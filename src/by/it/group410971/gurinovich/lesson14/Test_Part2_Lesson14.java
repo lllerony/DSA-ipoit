@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson14;
+package by.it.group410971.gurinovich.lesson14;
 
 import by.it.HomeWork;
 import org.junit.Test;
@@ -123,6 +123,4 @@ public class Test_Part2_Lesson14 extends HomeWork {
                 .collect(Collectors.joining(" "))
                 .trim();
     }
-
-
 }
